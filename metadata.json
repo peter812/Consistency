@@ -1,0 +1,5 @@
+{
+  "name": "Consistency App",
+  "description": "A high-performance habit tracking application designed for consistency, featuring a dark-mode UI, secure PIN entry, and detailed progress monitoring.",
+  "requestFramePermissions": []
+}

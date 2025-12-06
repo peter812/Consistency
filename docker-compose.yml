@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  frontend:
+    build: .
+    ports:
+      - "3000:80"
+    environment:
+      - REACT_APP_DB_HOST=db
+      - REACT_APP_API_URL=http://localhost:8080 # Hypothetical backend URL
+    depends_on:
+      - db
+
+  # NOTE: In a real architecture, you would need a Backend API service (Node/Go/Python)
+  # here to mediate between the React Frontend and the Postgres DB.
+  # The Frontend cannot strictly talk to Postgres directly securely.
+  
+  db:
+    image: postgres:15-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${DB_USER:-admin}
+      POSTGRES_PASSWORD: ${DB_PASS:-password}
+      POSTGRES_DB: consistency_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+volumes:
+  postgres_data:
